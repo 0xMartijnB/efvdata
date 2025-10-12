@@ -15,8 +15,8 @@ public class WebConfig {
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
                         .allowedOrigins(
-                                "https://your-frontend.vercel.app", // your Vercel domain
-                                "http://localhost:3000"              // for local dev
+                                "https://fpl-frontend-woad.vercel.app", // your Vercel domain
+                                "http://localhost:8080"              // for local dev
                         )
                         .allowedMethods("GET", "POST", "PUT", "DELETE")
                         .allowedHeaders("*");
