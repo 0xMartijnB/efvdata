@@ -40,7 +40,7 @@ public class PlayerService {
                 SELECT 
                     fpl_id,
                     COUNT(*)::float / ? AS ownership
-                FROM players
+                FROM players_picked
                 WHERE fpl_id = ANY(?)
                   AND event = ?
                   AND _rank <= ?
