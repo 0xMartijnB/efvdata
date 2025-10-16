@@ -50,7 +50,6 @@ public class PlayerService {
                   AND event = ?
                   AND _rank <= ?
                 GROUP BY fpl_id
-                ORDER BY position DESC
                 LIMIT 15
             """;
 
