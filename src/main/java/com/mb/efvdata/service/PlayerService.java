@@ -12,20 +12,25 @@ import java.util.Map;
 
 @Service
 public class PlayerService {
+    private final RestTemplate restTemplate;
+    private final ObjectMapper mapper;
     private final String base_url = "https://fantasy.espngoal.nl/api/";
     int gw = 8;
+
+    public PlayerService(RestTemplate restTemplate, ObjectMapper mapper) {
+        this.restTemplate = restTemplate;
+        this.mapper = mapper;
+    }
 
     public List<Player> getPlayers(int fplId, int topManagersCount) {
         List<Player> result = new ArrayList<>();
 
         try {
             // 1️⃣ Get team data from fantasy API
-            RestTemplate restTemplate = new RestTemplate();
             String managerUrl = base_url + "entry/" + fplId + "/event/" + gw + "/picks/";
             String response = restTemplate.getForObject(managerUrl, String.class);
 
             // 2️⃣ Parse JSON response
-            ObjectMapper mapper = new ObjectMapper();
             Map<?, ?> data = mapper.readValue(response, Map.class);
             List<Map<String, Object>> picks = (List<Map<String, Object>>) data.get("picks");
 
@@ -39,13 +44,13 @@ public class PlayerService {
             String sql = """
                 SELECT 
                     fpl_id,
-                    COUNT(*)::float / ? AS ownership
+                    (COUNT(*)::float / ?) * 100 AS ownership
                 FROM players_picked
                 WHERE fpl_id = ANY(?)
                   AND event = ?
                   AND _rank <= ?
                 GROUP BY fpl_id
-                ORDER BY ownership DESC
+                ORDER BY position DESC
                 LIMIT 15
             """;
 
