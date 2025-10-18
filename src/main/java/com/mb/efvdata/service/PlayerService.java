@@ -58,7 +58,7 @@ public class PlayerService {
                 LIMIT 15
                 ) players
                 LEFT JOIN player_mapping
-                ON players.fpl_id = player_mapping.fp_id
+                ON players.fpl_id = player_mapping.fpl_id
             """;
 
             try (Connection conn = DriverManager.getConnection(
