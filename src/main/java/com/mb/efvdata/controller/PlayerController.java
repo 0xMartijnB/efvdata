@@ -4,7 +4,9 @@ import com.mb.efvdata.model.Player;
 import com.mb.efvdata.service.PlayerService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/players")
@@ -18,10 +20,15 @@ public class PlayerController {
     }
 
     @GetMapping
-    public List<Player> getPlayers(
+    public Map<String, Object> getPlayers(
             @RequestParam int fplId,
             @RequestParam int topManagersCount
     ) {
-        return playerService.getPlayers(fplId, topManagersCount);
+        List<Player> players = playerService.getPlayers(fplId, topManagersCount);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("players", players);
+
+        return response;
     }
 }

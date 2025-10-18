@@ -43,6 +43,11 @@ public class PlayerService {
             // 4️⃣ Query Supabase
             String sql = """
                 SELECT 
+                    fpl_name,
+                    team,
+                    ownership
+                FROM (
+                SELECT 
                     fpl_id,
                     (COUNT(*)::float / ?) * 100 AS ownership
                 FROM players_picked
@@ -51,6 +56,9 @@ public class PlayerService {
                   AND _rank <= ?
                 GROUP BY fpl_id
                 LIMIT 15
+                ) players
+                LEFT JOIN player_mapping
+                ON players. fpl_id player_mapping.fp_id
             """;
 
             try (Connection conn = DriverManager.getConnection(
@@ -68,9 +76,10 @@ public class PlayerService {
 
                 ResultSet rs = stmt.executeQuery();
                 while (rs.next()) {
-                    int id = rs.getInt("fpl_id");
+                    String name = rs.getString("fpl_name");
+                    String team = rs.getString("team");
                     double ownership = rs.getDouble("ownership");
-                    result.add(new Player(String.valueOf(id), ownership));
+                    result.add(new Player(name, team, ownership));
                 }
             }
 
