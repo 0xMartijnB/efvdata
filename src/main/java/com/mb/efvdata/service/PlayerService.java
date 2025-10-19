@@ -15,7 +15,7 @@ public class PlayerService {
     private final RestTemplate restTemplate;
     private final ObjectMapper mapper;
     private final String base_url = "https://fantasy.espngoal.nl/api/";
-    int gw = 8;
+    public int gw = 9;
 
     public PlayerService(RestTemplate restTemplate, ObjectMapper mapper) {
         this.restTemplate = restTemplate;
