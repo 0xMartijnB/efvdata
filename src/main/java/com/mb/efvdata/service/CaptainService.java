@@ -15,7 +15,7 @@ import java.util.Map;
 public class CaptainService {
 //    private final RestTemplate restTemplate;
 //    private final ObjectMapper mapper;
-    public int gw = 8;
+    public int gw = 9;
 
     public CaptainService(RestTemplate restTemplate, ObjectMapper mapper) {
 //        this.restTemplate = restTemplate;
